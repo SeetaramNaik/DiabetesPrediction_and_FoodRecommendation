@@ -41,11 +41,11 @@ st.success('Welcome! Please provide your preferences for nutrient and disease to
 
     
     # User input for nutrient, disease, and food type
-nutrient = st.selectbox('Nutrient', ['fiber', 'vitamin_a', 'calcium', 'magnesium', 'sodium',
+nutrient = st.selectbox('Select the Nutrient to focus on:', ['fiber', 'vitamin_a', 'calcium', 'magnesium', 'sodium',
        'vitamin_c', 'protien', 'vitamin_e', 'iron', 'selenium',
        'carbohydrates', 'chloride', 'potassium', 'vitamin_d', 'manganese',
        'phosphorus', 'iodine'])
-disease = st.selectbox('Disease',['diabeties','cancer', 'obesity','hypertension','goitre','anemia','pregnancy',
+disease = st.selectbox('Choose the Disease:',['diabeties','cancer', 'obesity','hypertension','goitre','anemia','pregnancy',
         'rickets','scurvy','kidney_disease','heart_disease','eye_disease'])
 # food_type = st.selectbox('veg', ['veg', 'non-veg'])
     
