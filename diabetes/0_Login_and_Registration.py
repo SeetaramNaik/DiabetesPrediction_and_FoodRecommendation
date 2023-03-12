@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import hashlib
 import Diabetes_Prediction
 
 # Define a function to read the user data from the CSV file
@@ -17,6 +18,12 @@ def simulate_login(username, password):
         return True
     else:
         return False
+    
+# Function to hash the password using SHA-256 algorithm
+def hash_password(password):
+    hash_object = hashlib.sha256(password.encode())
+    hex_dig = hash_object.hexdigest()
+    return hex_dig
 
 # Create a Streamlit app
 def loginAndRegister():
@@ -46,7 +53,8 @@ def loginAndRegister():
                 st.warning("Passwords do not match. Please try again.")
             # If the username is new and the passwords match, add the user data to the CSV file
             else:
-                new_data = pd.DataFrame({"Username": [username], "Password": [password]})
+                hashed_password = hash_password(password)
+                new_data = pd.DataFrame({"Username": [username], "Password": [hashed_password]})
                 data = pd.concat([data, new_data], axis=0).reset_index(drop=True)
                 write_data(data)
                 st.success("Registration successful. Please log in.")
@@ -56,7 +64,8 @@ def loginAndRegister():
         # st.title('Login Form')
         if st.button("Login"):
             # Check if the username and password are valid
-            if (username in list(data["Username"])) and (password == list(data[data["Username"]==username]["Password"])[0]):
+            hashed_password = hash_password(password)
+            if (username in list(data["Username"])) and (hashed_password == list(data[data["Username"]==username]["Password"])[0]):
                 st.success("Logged in successfully.")
                 Diabetes_Prediction.Diabetes_Predict()
                 
