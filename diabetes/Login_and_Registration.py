@@ -35,6 +35,9 @@ def hash_password(password):
 pickle_in = open('logisticRegr.pkl', 'rb')
 classifier = pickle.load(pickle_in)
 
+
+
+
 def Diabetes_Predict():
     html_temp = """
     <div style="background-color:tomato;padding:1.5px">
@@ -125,13 +128,14 @@ def loginAndRegister():
     # Read the user data from the CSV file
     data = read_data()
     # Define variables for the user inputs
-    username = st.text_input("Username",value='vilas')
-    password = st.text_input("Password", type="password",value='vilas')
+    
 
 
     # If the user selects "Register"
     if choice == "Register":
         # st.title('Register Form')
+        username = st.text_input("Username")
+        password = st.text_input("Password", type="password")
         confirm_password = st.text_input("Confirm Password", type="password")
         if st.button("Register"):
             # Check if the username is already in use
@@ -147,17 +151,22 @@ def loginAndRegister():
                 data = pd.concat([data, new_data], axis=0).reset_index(drop=True)
                 write_data(data)
                 st.success("Registration successful. Please log in.")
-                return True
-        return False
+                # return True
+        # return False
     
     # If the user selects "Login"
     elif choice == "Login":
         # st.title('Login Form')
+        username = st.text_input("Username")
+        password = st.text_input("Password", type="password")
         if st.button("Login"):
             # Check if the username and password are valid
             hashed_password = hash_password(password)
             if (username in list(data["Username"])) and (hashed_password == list(data[data["Username"]==username]["Password"])[0]):
                 st.success("Logged in successfully.")
+                # Store user data in session state
+                if "user_data" not in st.session_state:
+                    st.session_state["user_data"] = [username]
                 # Diabetes_Predict()
                 return True
                 # st.stop()
