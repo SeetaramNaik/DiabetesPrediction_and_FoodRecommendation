@@ -7,6 +7,9 @@ import plotly.graph_objects as go
 import matplotlib.pyplot as plt
 import seaborn as sns
 import pickle
+import pdfkit
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail, Attachment, FileContent, FileName, FileType, Disposition
 
 pickle_in = open('logisticRegr.pkl', 'rb')
 classifier = pickle.load(pickle_in)
@@ -38,6 +41,52 @@ def Diabetes_Predict():
     submit = st.button('Predict 🔍')
     if submit:
         prediction = classifier.predict([[pregnancy, glucose, bp, skin, insulin, bmi, dpf, age]])
+        html = f"""
+                <html>
+                    <body>
+                        <h1>Diabetic Prediction Form</h1>
+                        <p><strong>Name:</strong> {name}</p>
+                        <p><strong>Age:</strong> {age}</p>
+                        <p><strong>Pregnancy:</strong> {glucose}</p>
+                        <p><strong>Blood Pressure:</strong> {bp}</p>
+                        <p><strong>Skin fold thickness:</strong> {skin}</p>
+                        <p><strong>2-hour serun Insulin:</strong> {insulin}</p>
+                        <p><strong>Body mass index:</strong> {bmi}</p>
+                        <p><strong>Pedigree function:</strong> {dpf}</p>
+                    </body>
+                </html>
+                """
+        # Convert the HTML content to a PDF file
+        pdfkit.from_string(html, "form.pdf")
+
+        # Create a SendGrid message and attach the PDF file
+        message = Mail(
+            from_email="19c16@sdmit.in",
+            to_emails="cturuby@gmail.com",
+            subject="Diabetic Prediction Form",
+            html_content="Please find attached the PDF file with your form data.")
+        with open("form.pdf", "rb") as f:
+            data = f.read()
+        attachment = Attachment(
+            FileContent(data),
+            FileName("form.pdf"),
+            FileType("application/pdf"),
+            Disposition("attachment")
+        )
+        message.attachment = attachment
+
+         # Send the email using SendGrid
+        try:
+            # sg = SendGridAPIClient("YOUR_API_KEY")
+            sg=SendGridAPIClient('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')
+            response = sg.send(message)
+            st.success("Form submitted successfully. Check your email for the PDF file.")
+        except Exception as e:
+            st.error("Failed to send the email. Please try again later.")
+            st.write(str(e))
+
+
+        #Printing the result
         if prediction == 0:
             st.success(name.upper()+'!!! You are not diabetic 😃')
         else:
