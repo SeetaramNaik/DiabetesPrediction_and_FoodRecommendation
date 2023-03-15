@@ -13,6 +13,7 @@ from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail, Attachment, FileContent, FileName, FileType, Disposition
 
 
+
 pickle_in = open('logisticRegr.pkl', 'rb')
 classifier = pickle.load(pickle_in)
 
@@ -45,7 +46,7 @@ def Diabetes_Predict():
     # st.sidebar.markdown(msg,unsafe_allow_html=True)
     
     if st.sidebar.button('LOGOUT🔁'):
-    # Clear user data from session state
+        # Clear user data from session state
         # st.session_state.pop("user_data", None)
         # Login_and_Registration.loginAndRegister()
         Login_and_Registration.loginAndRegister()
@@ -53,7 +54,7 @@ def Diabetes_Predict():
         st.session_state['user_data'] = None
         
         st.success('Logged out successfully.')
-        return True
+        return False
         
 
         # st.stop()

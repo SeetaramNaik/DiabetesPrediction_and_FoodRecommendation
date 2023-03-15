@@ -119,6 +119,7 @@ def Diabetes_Predict():
 
 # Create a Streamlit app
 def loginAndRegister():
+    # st.sidebar.subheader(st.session_state)
     st.title("Login and Register Form")
 
     # Create a menu with two options: Login and Register
@@ -157,8 +158,8 @@ def loginAndRegister():
     # If the user selects "Login"
     elif choice == "Login":
         # st.title('Login Form')
-        username = st.text_input("Username")
-        password = st.text_input("Password", type="password")
+        username = st.text_input("Username",value='seetaram')
+        password = st.text_input("Password", type="password",value='seetaram')
         if st.button("Login"):
             # Check if the username and password are valid
             hashed_password = hash_password(password)
