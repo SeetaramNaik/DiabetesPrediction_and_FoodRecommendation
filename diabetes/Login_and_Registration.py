@@ -158,8 +158,8 @@ def loginAndRegister():
     # If the user selects "Login"
     elif choice == "Login":
         # st.title('Login Form')
-        username = st.text_input("Username",value='seetaram')
-        password = st.text_input("Password", type="password",value='seetaram')
+        username = st.text_input("Username")
+        password = st.text_input("Password", type="password")
         if st.button("Login"):
             # Check if the username and password are valid
             hashed_password = hash_password(password)
