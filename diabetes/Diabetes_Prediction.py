@@ -21,8 +21,6 @@ classifier = pickle.load(pickle_in)
 st.set_page_config(layout="wide")
 
 
-
-
 def Diabetes_Predict():
     # st.button('LOGOUT')
     # Display user data
@@ -119,9 +117,19 @@ def Diabetes_Predict():
 
         #Printing the result
         if prediction == 0:
-            st.success(name.upper()+'!!! You are not diabetic 😃')
+            # st.success(name.upper()+'!!! You are not diabetic 😃')
+            html_temp = f"""
+                    <div style="background-color:#748c08;padding:1.5px;border-radius:20px;">
+                    <h4 style="color:white;text-align:center;">{name.upper()} You are not diabetic 😃</h4>
+                    </div><br>"""
+            st.markdown(html_temp,unsafe_allow_html=True)
         else:
-            st.warning(name.upper()+'... we are really sorry to say, but it seems like you are Diabetic. ☹️')
+            # st.warning(name.upper()+'... we are really sorry to say, but it seems like you are Diabetic. ☹️')
+            html_temp = f"""
+                    <div style="background-color:#ad0f03;padding:1.5px;border-radius:20px;">
+                    <h4 style="color:white;text-align:center;">{name.upper()} We are really sorry to say, but it seems like you are Diabetic. ☹️</h4>
+                    </div><br>"""
+            st.markdown(html_temp,unsafe_allow_html=True)
 
 
 
